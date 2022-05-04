@@ -1,4 +1,4 @@
-package br.com.andreitaiua.aemovies.ui.main
+package br.com.andreitaiua.aemovies.presentation.fragment
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.andreitaiua.aemovies.R
+import br.com.andreitaiua.aemovies.presentation.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 
@@ -23,10 +24,13 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadMovies()
+    }
 }

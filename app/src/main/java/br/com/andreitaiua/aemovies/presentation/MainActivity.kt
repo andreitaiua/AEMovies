@@ -1,8 +1,9 @@
-package br.com.andreitaiua.aemovies
+package br.com.andreitaiua.aemovies.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import br.com.andreitaiua.aemovies.ui.main.MainFragment
+import br.com.andreitaiua.aemovies.R
+import br.com.andreitaiua.aemovies.presentation.fragment.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
