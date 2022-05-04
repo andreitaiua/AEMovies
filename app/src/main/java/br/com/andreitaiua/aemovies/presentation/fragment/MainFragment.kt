@@ -6,7 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import br.com.andreitaiua.aemovies.R
+import br.com.andreitaiua.aemovies.di.Injection
 import br.com.andreitaiua.aemovies.presentation.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
@@ -15,18 +20,30 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels { Injection.viewModelFactory }
+    private lateinit var viewBinding: View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        val view = inflater.inflate(R.layout.main_fragment, container, false)
+        viewBinding = view
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        observeChanges()
+    }
+
+    private fun observeChanges() {
+        val progressBar = viewBinding.findViewById<ProgressBar>(R.id.progress_bar)
+        viewModel.isLoadingVisible.observe(viewLifecycleOwner) { isVisible ->
+
+            progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+
+        }
     }
 
     override fun onResume() {
