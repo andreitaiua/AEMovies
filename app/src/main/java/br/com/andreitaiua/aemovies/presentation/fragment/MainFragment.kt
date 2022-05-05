@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -39,10 +40,13 @@ class MainFragment : Fragment() {
 
     private fun observeChanges() {
         val progressBar = viewBinding.findViewById<ProgressBar>(R.id.progress_bar)
+        val textView = viewBinding.findViewById<TextView>(R.id.title)
+
         viewModel.isLoadingVisible.observe(viewLifecycleOwner) { isVisible ->
-
             progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
-
+        }
+        viewModel.model.observe(viewLifecycleOwner) { movie ->
+            textView.text = movie.title
         }
     }
 
