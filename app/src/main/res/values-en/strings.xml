@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AEMovies</string>
+    <string name="movie_year">Year: %s</string>
+    <string name="movie_rating">Rating: %s</string>
+</resources>
