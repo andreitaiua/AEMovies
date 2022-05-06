@@ -32,5 +32,6 @@ fun MovieResponse.mapFrom() = Movie(
     title = this.title,
     description = this.description,
     year = this.year,
+    rating = this.rating,
     image = this.image
 )

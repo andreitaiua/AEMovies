@@ -11,7 +11,9 @@ import kotlinx.coroutines.launch
 class MainViewModel constructor(private val getMoviesUseCase: GetMoviesUseCase) : ViewModel() {
 
     val isLoadingVisible: MutableLiveData<Boolean> = MutableLiveData()
-    val model: MutableLiveData<Movie> = MutableLiveData()
+    val isContentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isErrorContentVisible: MutableLiveData<Boolean> = MutableLiveData(false)
+    val model: MutableLiveData<List<Movie>> = MutableLiveData()
 
     fun loadMovies() {
         isLoadingVisible.value = true
@@ -21,9 +23,11 @@ class MainViewModel constructor(private val getMoviesUseCase: GetMoviesUseCase) 
             isLoadingVisible.postValue(false)
 
             if (movies.isNotEmpty()) {
-                model.postValue(movies.random())
+                isContentVisible.postValue(true)
+                model.postValue(movies)
             } else {
-
+                isContentVisible.postValue(false)
+                isErrorContentVisible.postValue(true)
             }
         }
 

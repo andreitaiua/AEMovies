@@ -12,7 +12,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import br.com.andreitaiua.aemovies.R
+import br.com.andreitaiua.aemovies.databinding.MainFragmentBinding
 import br.com.andreitaiua.aemovies.di.Injection
+import br.com.andreitaiua.aemovies.presentation.adapter.MovieAdapter
 import br.com.andreitaiua.aemovies.presentation.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
@@ -22,15 +24,18 @@ class MainFragment : Fragment() {
     }
 
     private val viewModel: MainViewModel by viewModels { Injection.viewModelFactory }
-    private lateinit var viewBinding: View
+    private lateinit var viewBinding: MainFragmentBinding
+    private lateinit var movieAdapter: MovieAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.main_fragment, container, false)
-        viewBinding = view
-        return view
+        movieAdapter = MovieAdapter()
+        return MainFragmentBinding.inflate(layoutInflater).apply {
+            viewBinding = this
+            movieList.adapter = movieAdapter
+        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,14 +44,14 @@ class MainFragment : Fragment() {
     }
 
     private fun observeChanges() {
-        val progressBar = viewBinding.findViewById<ProgressBar>(R.id.progress_bar)
-        val textView = viewBinding.findViewById<TextView>(R.id.title)
-
         viewModel.isLoadingVisible.observe(viewLifecycleOwner) { isVisible ->
-            progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+            viewBinding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
-        viewModel.model.observe(viewLifecycleOwner) { movie ->
-            textView.text = movie.title
+        viewModel.isContentVisible.observe(viewLifecycleOwner) { isVisible ->
+            viewBinding.movieList.visibility = if (isVisible) View.VISIBLE else View.GONE
+        }
+        viewModel.model.observe(viewLifecycleOwner) { movies ->
+           movieAdapter.setItems(movies)
         }
     }
 
