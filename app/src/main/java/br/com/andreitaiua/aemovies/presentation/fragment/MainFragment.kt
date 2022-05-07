@@ -46,7 +46,7 @@ class MainFragment : Fragment(), MovieAdapter.MovieListener {
         viewModel.isContentVisible.observe(viewLifecycleOwner) { isVisible ->
             viewBinding.movieList.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
-        viewModel.model.observe(viewLifecycleOwner) { movies ->
+        viewModel.moviesModel.observe(viewLifecycleOwner) { movies ->
             movieAdapter.setItems(movies)
         }
     }

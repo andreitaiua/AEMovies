@@ -12,6 +12,4 @@ class GetMoviesUseCase constructor(private val repositoryImpl: MovieRepositoryIm
             movieResponse.mapFrom()
         }
     }
-
-    //fun getMovies(): List<Movie> = repositoryImpl.getMovies().map { movieResponse -> movieResponse.mapFrom() }
 }
